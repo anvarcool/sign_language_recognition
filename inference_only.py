@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import torch
 data_path = input('Print path to data:')
-annotations = pd.read_csv('data/annotations.csv', sep = '\t')
+annotations = pd.read_csv(f'{data_path}/annotations.csv', sep = '\t')
 annotations_train = annotations.query('train & (text != "no_event")')
 annotations_test = annotations.query('~train & (text != "no_event")')
 labels_map = {name : i for
