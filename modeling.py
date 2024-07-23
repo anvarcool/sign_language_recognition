@@ -107,5 +107,5 @@ class LSTMClassification(nn.Module):
         for inputs, labels in testloader:
             inputs = inputs.flatten(start_dim = 1, end_dim = 2).permute((0, 2, 1)).to(device)
             outputs = self.forward(inputs)
-            result = np.append(result, torch.argmax(outputs, dim = 1).numpy())
+            result = np.append(result, torch.argmax(outputs, dim = 1).cpu().numpy())
         return result
