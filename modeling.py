@@ -40,7 +40,7 @@ class LSTMClassification(nn.Module):
         self.norm = nn.BatchNorm1d(hidden_dim)
         self.fc = nn.Linear(hidden_dim, 250)
         self.to(device)
-        self.load_state_dict(torch.load('pretrained_on_asl_model_weights.pth'))
+        self.load_state_dict(torch.load(f'./pretrained_on_asl_model_weights.pth'))
         self.conv3 = nn.Sequential(
                 nn.Conv1d(128, 256, kernel_size = 1, groups = 8),
                 nn.BatchNorm1d(256),
