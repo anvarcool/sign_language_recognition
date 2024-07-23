@@ -10,7 +10,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class LSTMClassification(nn.Module):
     def __init__(self, hidden_dim, pretrained_weights_path):
         super(LSTMClassification, self).__init__()
-        self.conv1 = nn.Sequential(1111111
+        self.conv1 = nn.Sequential(
         nn.Conv1d(128, 256, kernel_size = 1, groups = 8),
         nn.BatchNorm1d(256),
         nn.ReLU(inplace = True),
