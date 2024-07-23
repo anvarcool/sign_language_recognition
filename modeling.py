@@ -8,7 +8,7 @@ import time
 import numpy as np
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class LSTMClassification(nn.Module):
-    def __init__(self, hidden_dim):
+    def __init__(self, hidden_dim, pretrained_weights_path):
         super(LSTMClassification, self).__init__()
         self.conv1 = nn.Sequential(
         nn.Conv1d(128, 256, kernel_size = 1, groups = 8),
@@ -40,7 +40,7 @@ class LSTMClassification(nn.Module):
         self.norm = nn.BatchNorm1d(hidden_dim)
         self.fc = nn.Linear(hidden_dim, 250)
         self.to(device)
-        self.load_state_dict(torch.load(f'./pretrained_on_asl_model_weights.pth'))
+        self.load_state_dict(torch.load(f'{pretrained_weights_path}/pretrained_on_asl_model_weights.pth'))
         self.conv3 = nn.Sequential(
                 nn.Conv1d(128, 256, kernel_size = 1, groups = 8),
                 nn.BatchNorm1d(256),
