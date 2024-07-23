@@ -2,15 +2,6 @@ import torch
 import random
 import numpy as np
 import pandas as pd
-annotations = pd.read_csv('data/annotations.csv', sep = '\t')
-annotations_train = annotations.query('train & (text != "no_event")')
-annotations_test = annotations.query('~train & (text != "no_event")')
-labels_map = {name : i for
-              i, name in enumerate(annotations_train['text'].unique())}
-filenames_train = np.array(annotations_train['attachment_id'])
-file_labels_train = np.array([labels_map[key] for key in annotations_train['text']])
-filenames_test = np.array(annotations_test['attachment_id'])
-file_labels_test = np.array([labels_map[key] for key in annotations_test['text']])
 def affine(index, t, p):
     rand = random.uniform(0, 1)
     if rand < p:
