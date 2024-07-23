@@ -2,6 +2,7 @@ import torch
 from tqdm import tqdm
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def evaluate_RNN(model, test_data):
+    model.to(device)
     model.eval()
     accuracy = 0
     with torch.no_grad():
