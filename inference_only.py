@@ -4,7 +4,7 @@ from create_datasets import MyDataset_no_augment
 import numpy as np
 import pandas as pd
 import torch
-models_path = input('Print path to data:')
+models_path = input('Print path to pretrained_models_weights:')
 data_path = input('Print path to data:')
 annotations = pd.read_csv(f'{data_path}/annotations.csv', sep = '\t')
 annotations_train = annotations.query('train & (text != "no_event")')
