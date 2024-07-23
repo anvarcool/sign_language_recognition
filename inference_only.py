@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import torch
 data_path = input('Print path to data:')
+pretrained_weights_path = input('Print path to pretrained_on_ASL_model:')
 annotations = pd.read_csv(f'{data_path}/annotations.csv', sep = '\t')
 annotations_train = annotations.query('train & (text != "no_event")')
 annotations_test = annotations.query('~train & (text != "no_event")')
