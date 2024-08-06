@@ -2,6 +2,15 @@ import torch
 import random
 import numpy as np
 import pandas as pd
+annotations = pd.read_csv(f'annotations.csv', sep = '\t')
+annotations_train = annotations.query('train & (text != "no_event")')
+annotations_test = annotations.query('~train & (text != "no_event")')
+labels_map = {name : i for
+              i, name in enumerate(annotations_train['text'].unique())}
+filenames_train = np.array(annotations_train['attachment_id'])
+file_labels_train = np.array([labels_map[key] for key in annotations_train['text']])
+filenames_test = np.array(annotations_test['attachment_id'])
+file_labels_test = np.array([labels_map[key] for key in annotations_test['text']])
 def affine(index, t, p):
     rand = random.uniform(0, 1)
     if rand < p:
@@ -49,10 +58,4 @@ class MyDataset_no_augment(torch.utils.data.Dataset):
         return len(self.names)
     def __getitem__(self, index):
         return self.data[index,:, :, :128], self.labels[index]
-def create_datasets():
-    train = MyDataset(filenames_train, file_labels_train, True)
-    test = MyDataset_no_augment(filenames_test, file_labels_test, False)
-    train_no_augment = MyDataset_no_augment(filenames_train, file_labels_train, True)
-    return train, test, train_no_augment
-
 

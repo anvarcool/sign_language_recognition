@@ -8,7 +8,7 @@ import time
 import numpy as np
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 class LSTMClassification(nn.Module):
-    def __init__(self, hidden_dim, pretrained_weights_path):
+    def __init__(self, hidden_dim):
         super(LSTMClassification, self).__init__()
         self.conv1 = nn.Sequential(
         nn.Conv1d(128, 256, kernel_size = 1, groups = 8),
@@ -40,7 +40,7 @@ class LSTMClassification(nn.Module):
         self.norm = nn.BatchNorm1d(hidden_dim)
         self.fc = nn.Linear(hidden_dim, 250)
         self.to(device)
-        self.load_state_dict(torch.load(f'{pretrained_weights_path}/pretrained_on_asl_model_weights.pth'))
+        self.load_state_dict(torch.load('models/pretrained_on_asl_model_weights.pth'))
         self.conv3 = nn.Sequential(
                 nn.Conv1d(128, 256, kernel_size = 1, groups = 8),
                 nn.BatchNorm1d(256),
@@ -101,10 +101,10 @@ class LSTMClassification(nn.Module):
                 gc.collect()
                 torch.cuda.empty_cache()
                 if accuracy_test > min_accuracy:
-                    torch.save(self.state_dict(), f'rsl_model_weights_{epoch + 1}.pth')
+                    torch.save(self.state_dict(), f'models/rsl_model_weights_{epoch + 1}.pth')
     def inference(self, testloader):
         result = np.array([])
-        for inputs, labels in testloader:
+        for inputs, _ in testloader:
             inputs = inputs.flatten(start_dim = 1, end_dim = 2).permute((0, 2, 1)).to(device)
             outputs = self.forward(inputs)
             result = np.append(result, torch.argmax(outputs, dim = 1).cpu().numpy())
